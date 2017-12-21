@@ -85,7 +85,6 @@ def create_train_model(
         batch_size=hparams.batch_size,
         sos=hparams.sos,
         eos=hparams.eos,
-        source_reverse=hparams.source_reverse,
         random_seed=hparams.random_seed,
         num_buckets=hparams.num_buckets,
         src_max_len=hparams.src_max_len,
@@ -143,7 +142,6 @@ def create_eval_model(model_creator, hparams, scope=None, extra_args=None):
         hparams.batch_size,
         sos=hparams.sos,
         eos=hparams.eos,
-        source_reverse=hparams.source_reverse,
         random_seed=hparams.random_seed,
         num_buckets=hparams.num_buckets,
         src_max_len=hparams.src_max_len_infer,
@@ -193,7 +191,6 @@ def create_infer_model(model_creator, hparams, scope=None, extra_args=None):
         src_vocab_table,
         batch_size=batch_size_placeholder,
         eos=hparams.eos,
-        source_reverse=hparams.source_reverse,
         src_max_len=hparams.src_max_len_infer)
     model = model_creator(
         hparams,
@@ -302,9 +299,9 @@ def create_emb_for_encoder_and_decoder(share_vocab,
                          " %d vs. %d" % (src_vocab_size, tgt_vocab_size))
       utils.print_out("# Use the same source embeddings for target")
       vocab_file = src_vocab_file or tgt_vocab_file
-      emb_file = src_embed_file or tgt_embed_file
+      embed_file = src_embed_file or tgt_embed_file
 
-      if vocab_file and emb_file:
+      if vocab_file and embed_file:
         assert src_embed_size == tgt_embed_size
         embedding = _create_pretrained_emb_from_txt(vocab_file, embed_file)
       else:
